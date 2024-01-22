@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const NovoClienteModal = ({ show, handleClose, fetchDataForClients }) => {
+const NovoClienteModal = ({ showModal, handleCloseModal, fetchDataForClients }) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -34,7 +34,7 @@ const NovoClienteModal = ({ show, handleClose, fetchDataForClients }) => {
       setCoordenadaY('');
 
       // Fechar o modal
-      handleClose();
+      handleCloseModal();
     } catch (error) {
       console.error('Erro ao salvar cliente:', error);
       // Tratar erros conforme necessário
@@ -43,7 +43,7 @@ const NovoClienteModal = ({ show, handleClose, fetchDataForClients }) => {
 
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showModal} onHide={handleCloseModal}>
       <Modal.Header>
         <Modal.Title>Adicionar Cliente</Modal.Title>
       </Modal.Header>
@@ -101,7 +101,7 @@ const NovoClienteModal = ({ show, handleClose, fetchDataForClients }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseModal}>
           Fechar
         </Button>
         <Button variant="primary" onClick={handleSalvar}>
