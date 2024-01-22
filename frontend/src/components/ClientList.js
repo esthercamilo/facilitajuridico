@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-bootstrap'; 
+import { Modal, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
+import NovoClienteModal from './ModalNewClient';
 
 const ClientList = () => {
   const [clients, setClients] = useState([]);
   const [selectedClientsIds, setSelectedClientsIds] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [filtro, setFiltro] = useState('');
   const [show, setShow] = useState(false);
+  const [filtro, setFiltro] = useState('');
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
@@ -64,7 +64,7 @@ const ClientList = () => {
     };
 
     const handleNovoClick = () => {
-        setShowModal(true);
+        setShow(true);
       };
     
     const handleExcluirClick = async () => {
@@ -138,11 +138,9 @@ const ClientList = () => {
       
         <Tabela clients={clients} />
     
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-        </Modal>
+        <NovoClienteModal show={show} onHide={handleClose}>
+          
+        </NovoClienteModal>
 
     </div>
 

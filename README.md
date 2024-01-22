@@ -112,26 +112,48 @@ Depois de executar esses comandos, o projeto será clonado para o diretório loc
 **Nota importante:** Antes de inicializar o processo de instalação, você deve criar manualmente o arquivo de credenciais nomeado .env na raiz do projeto. Esse arquivo tem o seguinte conteúdo:
 
 ```bash
-DB_HOST=localhost
-DB_PASSWORD=<preencha aqui a senha de admin do banco>
-DB_NAME=facilitajuridicodb
+DB_PASSWORD=\<preencha aqui a senha de admin do banco\>
 ```
 
-Para instalar as dependências do projeto, criar o banco de dados e realizar as migrações necessárias, utilize os seguintes comandos:
+Crie um banco de dados chamado facilitajuridicodb
+
+```bash
+createdb -h localhost -U postgres facilitajuridicodb
+```
+
+Restaure o banco utilizando o script dump.sql
+
+```bash
+pg_restore -h localhost -U postgres -d facilitajuridicodb -c \<caminho_para_o_dump\>
+```
+
+
+Instalar as dependências do servidor. Na raiz do projeto execute
 
 ```bash
 npm install
-npm run migrate
-npm run install-frontend
 ```
+
+Instalar as dependências do frontend. Na pasta `frontend`` execute:
+
+```bash
+npm install
+```
+
 
 
 ## Execução
 
-Execute o seguinte comando. A aplicação estará disponível localmente.
+Abra um terminal na raiz do projeto e inicialize o servidor node
 
 ```bash
-npm run start-frontend
+node server.js
+```
+
+Abra outro terminal na pasta frontend e inicialize a aplicação
+
+```bash
+npm start
 ```
 
 
