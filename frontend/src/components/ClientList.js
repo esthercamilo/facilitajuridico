@@ -8,7 +8,7 @@ const ClientList = () => {
   const [selectedClientsIds, setSelectedClientsIds] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const [filtro, setFiltro] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:3001/clients')
@@ -16,18 +16,28 @@ const ClientList = () => {
       .catch(error => console.error(error));
   }, [showDeleteAlert]);
 
-  const BarraFerramentas = ({ onNovoClick, onExcluirClick }) => {
+  const BarraFerramentas = ({ onNovoClick, onExcluirClick, onFiltroChange }) => {
     return (
-      <div className="d-flex justify-content-end mb-3">
-        <button className="btn btn-primary me-2" onClick={onNovoClick}>
-          Novo
-        </button>
-        <button className="btn btn-danger" onClick={onExcluirClick}>
-          Excluir
-        </button>
+      <div className="d-flex justify-content-between mb-3">
+        <div className="d-flex">
+          <input
+            type="text"
+            className="form-control me-2"
+            placeholder="Filtrar"
+            onChange={onFiltroChange}
+          />
+
+        </div>
+        <div class="btn-group" role="group" aria-label="">
+          <button className="btn btn-primary" onClick={onNovoClick}>Novo</button>
+          <button className="btn btn-danger" onClick={onExcluirClick}>Excluir</button>
+        </div>
+             
       </div>
     );
   };
+  
+  
 
 
   const Tabela = ({ clients }) => {
@@ -43,6 +53,13 @@ const ClientList = () => {
         }
       };
 
+    const handleFiltroChange = (event) => {
+      const novoValor = event.target.value;
+      setFiltro(novoValor);
+      // Adicione aqui a lógica para filtrar seus dados com base em novoValor
+      // Por exemplo, pode chamar uma função de filtragem passando o novoValor.
+      // filtrarDados(novoValor);
+    };
 
     const handleNovoClick = () => {
         setShowModal(true);
@@ -70,7 +87,7 @@ const ClientList = () => {
 
     return (
       <div>
-         <BarraFerramentas onNovoClick={handleNovoClick} onExcluirClick={handleExcluirClick} />
+         <BarraFerramentas onNovoClick={handleNovoClick} onExcluirClick={handleExcluirClick} onFiltroChange={handleFiltroChange} />
           
       <table className="table table-striped">
         <thead>
