@@ -1,15 +1,11 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Navbar, Container, Nav, Modal } from 'react-bootstrap'; // Importe os componentes da barra de navegação
+import { Navbar, Container, Nav} from 'react-bootstrap'; 
 import ClientList from './components/ClientList';
 import Pathways from './components/Pathways';
 
 function App() {
-
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
 
   return (
     <Router>
@@ -31,13 +27,6 @@ function App() {
           </Routes>
         </Container>
       </div>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-      </Modal>
-
 
     </Router>
     

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
@@ -9,6 +10,9 @@ const ClientList = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [filtro, setFiltro] = useState('');
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   useEffect(() => {
     axios.get('http://localhost:3001/clients')
@@ -37,8 +41,6 @@ const ClientList = () => {
     );
   };
   
-  
-
 
   const Tabela = ({ clients }) => {
 
@@ -65,29 +67,33 @@ const ClientList = () => {
         setShowModal(true);
       };
     
-      const handleExcluirClick = async () => {
-        try {
-          // Faça uma solicitação para excluir usuários selecionados
-          const response = await axios.delete('http://localhost:3001/clients', {
-            data: { selectedClientsIds }, // Enviar IDs dos clientes a serem excluídos no corpo da solicitação
-          });
-    
-          const data = response.data;
-    
-          if (data.success) {
-            console.log('Clientes excluídos com sucesso:', data.message);
-            // Atualize o estado da sua aplicação ou faça outras ações necessárias
-          } else {
-            console.error('Erro ao excluir cliente:', data.message);
-          }
-        } catch (error) {
-          console.error('Erro ao excluir cliente:', error);
+    const handleExcluirClick = async () => {
+      try {
+        // Faça uma solicitação para excluir usuários selecionados
+        const response = await axios.delete('http://localhost:3001/clients', {
+          data: { selectedClientsIds }, // Enviar IDs dos clientes a serem excluídos no corpo da solicitação
+        });
+  
+        const data = response.data;
+  
+        if (data.success) {
+          console.log('Clientes excluídos com sucesso:', data.message);
+          // Atualize o estado da sua aplicação ou faça outras ações necessárias
+        } else {
+          console.error('Erro ao excluir cliente:', data.message);
         }
-      };
+      } catch (error) {
+        console.error('Erro ao excluir cliente:', error);
+      }
+    };
 
     return (
       <div>
-         <BarraFerramentas onNovoClick={handleNovoClick} onExcluirClick={handleExcluirClick} onFiltroChange={handleFiltroChange} />
+         <BarraFerramentas 
+            onNovoClick={handleNovoClick}
+            onExcluirClick={handleExcluirClick}
+            onFiltroChange={handleFiltroChange}
+         />
           
       <table className="table table-striped">
         <thead>
@@ -132,7 +138,14 @@ const ClientList = () => {
       
         <Tabela clients={clients} />
     
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+        </Modal>
+
     </div>
+
   );
 };
 

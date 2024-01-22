@@ -2,6 +2,8 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const tspSolver = require('./frontend/src/scripts/tspSolver.js'); 
+const dotenv = require('dotenv');  // Adiciona esta linha
+dotenv.config();
 const app = express();
 const port = 3001;
 
@@ -20,7 +22,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'facilitajuridicodb',
-  password: 'motiva',
+  password: process.env.DB_PASSWORD,
   port: 5432,
 });
 
