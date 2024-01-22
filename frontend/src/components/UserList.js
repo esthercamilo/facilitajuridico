@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 const UserList = () => {
@@ -11,11 +12,16 @@ const UserList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Lista de Usuários</h1>
-      <ul>
+    <div className="container">
+      <h1 className="my-4">Lista de Clientes</h1>
+      <ul className="list-group">
         {users.map(user => (
-          <li key={user.id}>{user.name} - {user.email}</li>
+          <li key={user.id} className="list-group-item">
+            <div className="d-flex justify-content-between align-items-center">
+              <span>{user.name}</span>
+              <span className="badge bg-primary">Email: {user.email}</span>
+            </div>
+          </li>
         ))}
       </ul>
     </div>
