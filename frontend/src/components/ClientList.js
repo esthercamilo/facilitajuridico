@@ -3,16 +3,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
 
-const UserList = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedUserIds, setSelectedUserIds] = useState([]);
+const ClientList = () => {
+  const [clients, setClients] = useState([]);
+  const [selectedClientsIds, setSelectedClientsIds] = useState([]);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
 
   useEffect(() => {
-    axios.get('http://localhost:3001/users')
-      .then(response => setUsers(response.data))
+    axios.get('http://localhost:3001/clients')
+      .then(response => setClients(response.data))
       .catch(error => console.error(error));
-  }, []);
+  }, [showDeleteAlert]);
 
   const BarraFerramentas = ({ onNovoClick, onExcluirClick }) => {
     return (
@@ -28,42 +30,41 @@ const UserList = () => {
   };
 
 
-  const Tabela = ({ users }) => {
+  const Tabela = ({ clients }) => {
 
-    const handleCheckboxChange = (userId) => {
+    const handleCheckboxChange = (clientId) => {
         // Verifique se o usuário já está na lista de IDs selecionados
-        if (selectedUserIds.includes(userId)) {
+        if (selectedClientsIds.includes(clientId)) {
           // Se estiver, remova-o
-          setSelectedUserIds(prevIds => prevIds.filter(id => id !== userId));
+          setSelectedClientsIds(prevIds => prevIds.filter(id => id !== clientId));
         } else {
           // Se não estiver, adicione-o
-          setSelectedUserIds(prevIds => [...prevIds, userId]);
+          setSelectedClientsIds(prevIds => [...prevIds, clientId]);
         }
       };
 
 
     const handleNovoClick = () => {
-        // Lógica para ação "Novo"
-        console.log('Botão Novo clicado');
+        setShowModal(true);
       };
     
       const handleExcluirClick = async () => {
         try {
           // Faça uma solicitação para excluir usuários selecionados
-          const response = await axios.delete('http://localhost:3001/users', {
-            data: { selectedUserIds }, // Enviar IDs dos usuários a serem excluídos no corpo da solicitação
+          const response = await axios.delete('http://localhost:3001/clients', {
+            data: { selectedClientsIds }, // Enviar IDs dos clientes a serem excluídos no corpo da solicitação
           });
     
           const data = response.data;
     
           if (data.success) {
-            console.log('Usuários excluídos com sucesso:', data.message);
+            console.log('Clientes excluídos com sucesso:', data.message);
             // Atualize o estado da sua aplicação ou faça outras ações necessárias
           } else {
-            console.error('Erro ao excluir usuários:', data.message);
+            console.error('Erro ao excluir cliente:', data.message);
           }
         } catch (error) {
-          console.error('Erro ao excluir usuários:', error);
+          console.error('Erro ao excluir cliente:', error);
         }
       };
 
@@ -74,30 +75,30 @@ const UserList = () => {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>Selecionar</th>
+            <th>Cliente</th>
             <th>Email</th>
             <th>Telefone</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
+          {clients.map(client => (
+            <tr key={client.id}>
               <td>
-                <label htmlFor={user.id}>
+                <label htmlFor={client.id}>
                     <input
                     className="form-check-input"
                     type="checkbox"
-                    id={user.id}
-                    checked={selectedUserIds.includes(user.id)}
-                    onChange={() => handleCheckboxChange(user.id)}
+                    id={client.id}
+                    checked={selectedClientsIds.includes(client.id)}
+                    onChange={() => handleCheckboxChange(client.id)}
                     />
-                    &emsp;{user.name}
+                    &emsp;{client.name}
                 </label>
 
               </td>
-              <td>{user.email}</td>
-              <td>{user.telefone}</td>
+              <td>{client.email}</td>
+              <td>{client.telefone}</td>
               <td><i className="fas fa-edit"></i></td>
             </tr>
           ))}
@@ -110,12 +111,12 @@ const UserList = () => {
 
   return (
     <div className="container">
-      <h1 className="my-4">Lista de Usuários</h1>
+      <h1 className="my-4">Lista de Clientes</h1>
       
-        <Tabela users={users} />
+        <Tabela clients={clients} />
     
     </div>
   );
 };
 
-export default UserList;
+export default ClientList;

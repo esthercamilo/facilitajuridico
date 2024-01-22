@@ -1,9 +1,20 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-
+const tspSolver = require('./frontend/src/scripts/tspSolver.js'); 
 const app = express();
 const port = 3001;
+
+app.post('/solve-tsp', (req, res) => {
+    console.log('solve-tsp');
+    const pontos = req.body.pontos;
+    const melhorCaminho = tspSolver.tsp2opt(pontos);
+  
+    res.json({
+      melhorCaminho,
+      distanciaTotal: tspSolver.calcularCaminhoDistancia(melhorCaminho, pontos),
+    });
+  });
 
 const pool = new Pool({
   user: 'postgres',
@@ -16,30 +27,30 @@ const pool = new Pool({
 app.use(express.json());
 app.use(cors()); // Adiciona o middleware cors
 
-app.get('/users', async (req, res) => {
-  const { rows } = await pool.query('SELECT * FROM users');
+app.get('/clients', async (req, res) => {
+  const { rows } = await pool.query('SELECT * FROM clients');
   res.json(rows);
 });
 
-app.post('/users', async (req, res) => {
+app.post('/clients', async (req, res) => {
   const { name, email, telefone, coord_x, coord_y } = req.body;
-  const { rows } = await pool.query('INSERT INTO users (name, email, telefone, coord_x, coord_y) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, email, telefone, coord_x, coord_y]);
+  const { rows } = await pool.query('INSERT INTO clients (name, email, telefone, coord_x, coord_y) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, email, telefone, coord_x, coord_y]);
   res.json(rows[0]);
 });
 
-app.delete('/users/:id', async (req, res) => {
-    const { id } = req.params;
+app.delete('/clients', async (req, res) => {
+    const { selectedUserIds } = req.body;
   
     try {
-      const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
+      const result = await pool.query('DELETE FROM clients WHERE id = ANY($1) RETURNING *', [selectedUserIds]);
   
       if (result.rowCount > 0) {
-        res.json({ success: true, message: 'Usuário excluído com sucesso.' });
+        res.json({ success: true, message: 'Usuários excluídos com sucesso.' });
       } else {
-        res.status(404).json({ success: false, message: 'Usuário não encontrado.' });
+        res.status(404).json({ success: false, message: 'Nenhum usuário encontrado para exclusão.' });
       }
     } catch (error) {
-      console.error('Erro ao excluir usuário:', error);
+      console.error('Erro ao excluir usuários:', error);
       res.status(500).json({ success: false, message: 'Erro interno do servidor.' });
     }
   });

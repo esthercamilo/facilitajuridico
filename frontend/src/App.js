@@ -1,11 +1,16 @@
 // src/App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Navbar, Container, Nav } from 'react-bootstrap'; // Importe os componentes da barra de navegação
-import UserList from './components/UserList';
+import { Navbar, Container, Nav, Modal } from 'react-bootstrap'; // Importe os componentes da barra de navegação
+import ClientList from './components/ClientList';
 import Pathways from './components/Pathways';
 
 function App() {
+
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
   return (
     <Router>
       <div>
@@ -21,12 +26,21 @@ function App() {
 
         <Container className="mt-4">
           <Routes>
-            <Route path="/" element={<UserList />} />
+            <Route path="/" element={<ClientList />} />
             <Route path="/rotas" element={<Pathways />} />
           </Routes>
         </Container>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+      </Modal>
+
+
     </Router>
+    
   );
 }
 
