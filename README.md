@@ -134,7 +134,7 @@ Instalar as dependências do servidor. Na raiz do projeto execute
 npm install
 ```
 
-Instalar as dependências do frontend. Na pasta `frontend`` execute:
+Instalar as dependências do frontend. Na pasta `frontend` execute:
 
 ```bash
 npm install

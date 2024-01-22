@@ -1,31 +1,46 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const NovoClienteModal = ({ show, handleClose }) => {
+const NovoClienteModal = ({ show, handleClose, fetchDataForClients }) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [coordenadaX, setCoordenadaX] = useState(null);
   const [coordenadaY, setCoordenadaY] = useState(null);
 
-  const handleSalvar = () => {
-    // Aqui você pode chamar seu endpoint /clients para salvar os dados
-    console.log('Nome:', nome);
-    console.log('Email:', email);
-    console.log('Telefone:', telefone);
-    console.log('Coordenada X:', coordenadaX);
-    console.log('Coordenada Y:', coordenadaY);
+  const handleSalvar = async () => {
+    try {
+      // Faz a chamada para o endpoint de salvar cliente
+      const response = await axios.post('http://localhost:3001/clients', {
+        name: nome,
+        email: email,
+        telefone: telefone,
+        coord_x: coordenadaX,
+        coord_y: coordenadaY,
+      });
 
-    // Limpar os campos após salvar
-    setNome('');
-    setEmail('');
-    setTelefone('');
-    setCoordenadaX('');
-    setCoordenadaY('');
+      // Mostra a resposta do servidor no console
+      console.log('Resposta do servidor:', response.data);
 
-    // Fechar o modal
-    handleClose();
+      // Atualiza a lista de clientes após salvar
+      await fetchDataForClients();
+
+      // Limpar os campos após salvar
+      setNome('');
+      setEmail('');
+      setTelefone('');
+      setCoordenadaX('');
+      setCoordenadaY('');
+
+      // Fechar o modal
+      handleClose();
+    } catch (error) {
+      console.error('Erro ao salvar cliente:', error);
+      // Tratar erros conforme necessário
+    }
   };
+
 
   return (
     <Modal show={show} onHide={handleClose}>

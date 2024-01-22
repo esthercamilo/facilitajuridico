@@ -12,7 +12,24 @@ const ClientList = () => {
   const [show, setShow] = useState(false);
   const [filtro, setFiltro] = useState('');
   const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+
+  //const handleClose = () => setShow(false);
+
+  const fetchDataForClients = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/clients');
+      setClients(response.data);  // Atualiza o estado da lista de clientes
+    } catch (error) {
+      console.error('Erro ao buscar clientes:', error);
+      // Tratar erros conforme necessário
+    }
+  };
+
+  const handleClose = async () => {
+    await fetchDataForClients(); 
+    setShow(false);
+  }
+
 
   useEffect(() => {
     axios.get('http://localhost:3001/clients')
@@ -138,7 +155,7 @@ const ClientList = () => {
       
         <Tabela clients={clients} />
     
-        <NovoClienteModal show={show} onHide={handleClose}>
+        <NovoClienteModal show={show} handleClose={handleClose} fetchDataForClients={fetchDataForClients}>
           
         </NovoClienteModal>
 
