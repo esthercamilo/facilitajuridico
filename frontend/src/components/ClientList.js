@@ -44,7 +44,7 @@ const ClientList = () => {
           <input
             type="text"
             className="form-control me-2"
-            placeholder="Filtrar"
+            placeholder="Filtrar por nome"
             onChange={onFiltroChange}
           />
 
@@ -73,6 +73,7 @@ const ClientList = () => {
       };
 
     const handleFiltroChange = (event) => {
+      console.log(event.target.value);
       const novoValor = event.target.value;
       setFiltro(novoValor);
       // Adicione aqui a lógica para filtrar seus dados com base em novoValor
