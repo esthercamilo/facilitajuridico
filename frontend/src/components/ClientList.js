@@ -13,7 +13,6 @@ const ClientList = () => {
   const [filtro, setFiltro] = useState('');
   const handleShow = () => setShow(true);
 
-  //const handleClose = () => setShow(false);
 
   const fetchDataForClients = async () => {
     try {
@@ -40,20 +39,14 @@ const ClientList = () => {
   const BarraFerramentas = ({ onNovoClick, onExcluirClick, onFiltroChange }) => {
     return (
       <div className="d-flex justify-content-between mb-3">
-        <div className="d-flex">
-          <input
-            type="text"
-            className="form-control me-2"
-            placeholder="Filtrar por nome"
-            onChange={onFiltroChange}
-          />
-
+        <div class="input-group mb-3">
+          <input type="text" className="form-control" placeholder="Busca por nome" />
+          <div className="input-group-append">
+            <button className="btn btn-light" onClick={onFiltroChange}>Filtrar</button>
+            <button className="btn btn-primary ms-1" onClick={onNovoClick}>Novo</button>
+            <button className="btn btn-danger ms-1" onClick={onExcluirClick}>Excluir</button>
+          </div>
         </div>
-        <div class="btn-group" role="group" aria-label="">
-          <button className="btn btn-primary" onClick={onNovoClick}>Novo</button>
-          <button className="btn btn-danger" onClick={onExcluirClick}>Excluir</button>
-        </div>
-             
       </div>
     );
   };
