@@ -4,7 +4,7 @@ function calcularDistancia(ponto1, ponto2) {
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   }
   
-  function calcularCaminhoDistancia(caminho, pontos) {
+function calcularCaminhoDistancia(caminho, pontos) {
     let distanciaTotal = 0;
     for (let i = 0; i < caminho.length - 1; i++) {
       const pontoAtual = pontos[caminho[i]];
@@ -14,7 +14,7 @@ function calcularDistancia(ponto1, ponto2) {
     return distanciaTotal;
   }
   
-  function swap(caminho, i, j) {
+function swap(caminho, i, j) {
     const novoCaminho = [...caminho];
     const temp = novoCaminho[i];
     novoCaminho[i] = novoCaminho[j];
@@ -22,7 +22,7 @@ function calcularDistancia(ponto1, ponto2) {
     return novoCaminho;
   }
   
-  function tsp2opt(pontos) {
+function tsp2opt(pontos) {
     const numPontos = pontos.length;
   
     // Inicialização com um caminho simples: 0, 1, 2, ..., n-1
@@ -53,9 +53,9 @@ function calcularDistancia(ponto1, ponto2) {
   }
 
  
-  module.exports = {
+ module.exports = {
     calcularDistancia,
     calcularCaminhoDistancia,
     swap,
-    tsp2opt,
+    tsp2opt
   };
