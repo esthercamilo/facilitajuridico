@@ -33,11 +33,13 @@ const Pathways = () => {
   
     return (
       <div>
-        <button onClick={handleClick}>Resolver TSP</button>
+        <button className="btn btn-success" onClick={handleClick}>Resolver TSP</button>
+        <th/>
         {resultado && (
           <div>
-            <label>Melhor Caminho: {JSON.stringify(resultado.melhorCaminho)}</label>
-            <label>Distância Total: {resultado.distanciaTotal}</label>
+            <th/>
+            <p >Melhor Caminho: {JSON.stringify(resultado.melhorCaminho)}</p>
+            <p>Distância Total: {resultado.distanciaTotal}</p>
           </div>
         )}
       </div>

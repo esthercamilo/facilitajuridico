@@ -1,6 +1,7 @@
 function calcularDistancia(ponto1, ponto2) {
-    const deltaX = ponto1.x - ponto2.x;
-    const deltaY = ponto1.y - ponto2.y;
+    console.log('Pontos: ' + ponto1.coord_x + ' ' + ponto2.coord_y);
+    const deltaX = ponto1.coord_x - ponto2.coord_x;
+    const deltaY = ponto1.coord_y - ponto2.coord_y;
     return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
   }
   
